@@ -1,0 +1,66 @@
+plugins {
+	id 'java'
+	id 'war'
+	id 'org.springframework.boot' version '3.2.5'
+	id 'io.spring.dependency-management' version '1.1.4'
+}
+
+group = 'com.example'
+version = '0.0.1-SNAPSHOT'
+
+java {
+	sourceCompatibility = '21'
+}
+
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	compileOnly 'org.projectlombok:lombok'
+	annotationProcessor 'org.projectlombok:lombok'
+	//providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
+	//JSP
+	implementation 'org.apache.tomcat.embed:tomcat-embed-jasper' // 추가
+
+	//JSTL
+	implementation 'jakarta.servlet:jakarta.servlet-api' //스프링부트 3.0 이상
+	implementation 'jakarta.servlet.jsp.jstl:jakarta.servlet.jsp.jstl-api' //스프링부트 3.0 이상
+	implementation 'org.glassfish.web:jakarta.servlet.jsp.jstl' //스프링부트 3.0 이상
+
+	//DATA VALIDATION
+	implementation 'org.hibernate.validator:hibernate-validator'
+	implementation 'jakarta.validation:jakarta.validation-api'
+
+	//DATABASE
+	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+	runtimeOnly 'com.mysql:mysql-connector-j'
+
+	//MYBATIS
+	implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.3'
+	testImplementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter-test:3.0.3'
+
+	//JPA
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+
+
+	// ASSERT TEST
+	testImplementation 'org.assertj:assertj-core:3.25.3'
+
+
+
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
