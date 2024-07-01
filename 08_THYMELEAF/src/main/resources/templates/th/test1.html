@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <h1>TEST1 PAGE</h1>
+
+    NAME : <span th:text="${name}"></span> <br>
+    MEMO : <span th:text="${memo}"></span> <br>
+    MEMO.ID : <span th:text="${memo.id}"></span> <br>
+    MEMO.TEXT : <span th:text="${memo.id}"></span>  <br>
+    ISAUTH : <span th:text="${isAuth}"></span>  <br>
+
+    <hr>
+
+    <th:block>
+        <div th:if="${isAuth}">
+            로그인 된 상태입니다.
+        </div>
+    </th:block>
+    <th:block>
+        <div th:unless="${isAuth}">
+            로그인 된 상태가 아닙니다.
+        </div>
+    </th:block>
+
+    <hr>
+
+    <th:block>
+        <div th:each="dto:${list}">
+            <span th:text="${dto.id}"></span> <br>
+            <span th:text="${dto.text}"></span> <br>
+        </div>
+    </th:block>
+
+    <hr>
+    <!-- localhost:8080/readMemo?id=1 -->
+    <a th:href="@{/readMemo(id=${memo.id})}">이동하기</a>
+
+    <hr>
+    <!-- localhost:8080/readMemo/1?text=TEXT -->
+    <a th:href="@{/readMemo/{id}(id=${memo.id}, text=${memo.text})}">이동하기</a>
+
+</body>
+</html>
