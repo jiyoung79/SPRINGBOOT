@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.app.domain.mapper.MemoMapper">
+	<resultMap id="MemoResultMap2" type="java.util.HashMap">
+		<id property="id" column="id" />
+		<result property="text" column="text" />
+	</resultMap>
+	
+	
+	<insert id="InsertXML" useGeneratedKeys="true" keyProperty="id"  parameterType="com.example.app.domain.dto.MemoDto">
+		<selectKey keyProperty="id" order="AFTER" resultType="int">
+			select max(id)+1 from tbl_memo
+		</selectKey>
+		insert into tbl_memo values(null,#{text})
+	</insert>
+	
+	<update id="UpdateXML" parameterType="com.example.app.domain.dto.MemoDto">
+		update tbl_memo set text=#{text} where id=#{id}
+	</update>
+	<delete id="DeleteXML" parameterType="int">
+		delete from tbl_memo where id=#{id}
+	</delete>		
+	
+	<select id="SelectAtXML" parameterType="int" resultType="com.example.app.domain.dto.MemoDto">
+		select * from tbl_memo where id=#{id}
+	</select>
+	<select id="SelectAllXML"  resultType="com.example.app.domain.dto.MemoDto">
+		select * from tbl_memo
+	</select>
+	
+
+	<select id="SelectAllResultMapXML"  resultMap="MemoResultMap2">
+		select * from tbl_memo
+	</select>
+	
+	<!--  
+		동적쿼리 적용
+	-->
+	<select id="SelectIf" parameterType="java.util.Map" resultType="java.util.Map">
+		select * from tbl_memo 
+		<if test="type!=null and type.equals('text')">
+			where text like concat('%',#{text},'%')
+		</if>
+	</select>
+	
+	<select id="SelectWhen"  parameterType="java.util.Map" resultType="java.util.Map">
+		select * from tbl_memo
+		
+		<if test="condition==true">
+			where
+			<choose>
+				<when test="type!=null and type.equals('id')">
+					id like concat('%',#{id},'%')
+				</when>
+				<when test="type!=null and type.equals('text')">
+					text like concat('%',#{text},'%')
+				</when>	
+			</choose>
+		</if>
+
+		
+	</select>
+	
+</mapper>
+
+
+
+
+
+
+
